@@ -1,0 +1,48 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link type="text/css" rel="stylesheet" href="bootstrap.css">
+	<link type="text/css" rel="stylesheet" href="heliconbooks.css">
+	<style>
+	.contents {
+		width:1000px;
+		margin:auto;
+	}
+	#title {
+		font-weight:bold;
+		font-size:32px;
+		margin-bottom:10px;
+	}
+	#page {
+		margin-left:5px;
+		margin-right:5px;
+		padding:5px;
+		height:90%;
+		overflow:hidden;
+		border:1px solid #F0F0F0;
+	}
+	</style>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<title>Helicon books online reader</title>
+</head>
+<body>
+<div class="contents">
+<div id="title" >
+Book title
+</div>
+<div id="left" class="span1" style="margin-left:0;height:500px;padding-top:250px;">
+<a href="#" onClick="left()"><img src="images/left.png" alt="left"></a>
+</div>
+<div class="span7" id="page" >
+Page contents
+</div>
+<div id="right" class="span1" style="margin-left:0;height:500px;padding-top:250px;">
+<a href="#" onClick="right()"><img src="images/right.png" alt="right"></a>
+</div>
+<div id="info" class="span3">
+Book information
+</div>
+</div>
+</body>
+</html>
