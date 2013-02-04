@@ -1,14 +1,33 @@
-cer
-===
+#CER
 
-Web based digital book reader
+_Open source_ Cloued Epub Reader
 
-License: GPL version 3.0
+__Version:__ 0.1B
 
-This is currently a skeleton only for a Web based Digital Book reader.
-This reader will eventually be part of the helicon books book store (http://store.heliconbooks.com)
+##License
+[GPL] (http://www.gnu.org/licenses/gpl.html)
 
-The reader will be based on templates which are HTML files with few divs with specific id's
-The reader engine will read the template, display it and then use Ajax to fill in the div's.
-If a div does not exist, it will be silently ignored.
+__Originally written by:__ Ori Idan <ori@heliconbooks.com>
+
+##Contributing
+If you want to contribute to it, contact Ori Idan at ori@heliconbooks.com
+
+##Contirbutors
+Ori Idan <ori@heliconbooks.com>
+
+
+##This reader currently supports
+* MathML
+* SVG
+* JavaScript
+* Video
+
+##It does not yet support
+* Media overlay
+* Content list browsing
+* paging
+
+This reader was built in order to provide preview capability to books in Helicon books store
+(http://store.heliconbooks.com)
+
 
