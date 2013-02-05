@@ -68,9 +68,9 @@ function next_page(id, opid) {
 }
 
 function prev_page(id, opid) {
-	 if(chapter > 1) {
+	 if(chapter > 0) {
 	 	chapter = chapter - 1;
-	 	if(chapter == 1) {
+	 	if(chapter == 0) {
 	 		document.getElementById(id).style.display = 'none';
 		}
 		else {

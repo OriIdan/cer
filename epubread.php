@@ -14,18 +14,30 @@
  | It's up to the server to clean old directory, in next version cleaning logic will be added.
  */
 
+/* error_reporting(-1);
+ini_set('display_errors', 'stdout'); */
+
 function CreateTmpDir($base) {
 	if($_SESSION['epubdir']) {
 		return $_SESSION['epubdir'];
 	}
 	$i = 1;
-	while(!mkdir("$base/$i", 0777, true))
+	while(!mkdir("$base/$i", 0777, true)) {
 		$i++;
+	}
 	$_SESSION['epubdir'] = "$base/$i";
 	return "$base/$i";
 }
 
 $epubdir = CreateTmpDir('epub');
+if($_SESSION['epubfile'] != $epubfile) {
+	$_SESSION['epubfile'] = $epubfile;
+	$olddir = $epubdir;
+	$_SESSION['epubdir'] = 0;
+	$epubdir = CreateTmpDir('epub');	
+	system("rm -rf $olddir");
+}
+
 // print "tmpdir: $epubdir<br />\n";
 /* Unzip epub file */
 system("unzip -o $epubfile -d $epubdir > /dev/null");
@@ -148,6 +160,6 @@ foreach($itemref as $k => $v) {
 	}
 }
 print "];\n";
-print "var chapter = 1;\n";
+print "var chapter = 0;\n";
 ?>
 
