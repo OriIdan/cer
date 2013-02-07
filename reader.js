@@ -1,3 +1,7 @@
+/*
+ | JavaScript functions for CER
+ | Written by: Ori Idan <ori@heliconbooks.com>
+ */
 function loadAjax(url,mydiv) {
 	var xmlhttp;
 	
@@ -26,6 +30,7 @@ function ShowTitle() {
 	else {
 		document.getElementById('title').innerHTML = '<div dir="ltr">' + title + '</div>';
 	}
+	document.title = title;
 }
 
 function ShowInfo() {
@@ -44,16 +49,31 @@ function ShowInfo() {
 	document.getElementById('info').innerHTML = t;
 }
 
+function ShowComments() {
+	var article = fname + '_' + chapter;
+	
+	loadAjax('comments.php?article=' + article + '&lang=' + lang, 'comments');
+	document.getElementById('article').value = article;
+	if(lang == 'he') {
+		document.getElementById('addcommentstr').innerHTML = '<img src="images/comment_add.png">&nbsp;הוספת תגובה<br />';
+		document.getElementById('addcommentstr').dir = "rtl";
+		document.getElementById('name').placeholder = "שם";
+		document.getElementById('name').dir = "rtl";
+		document.getElementById('submit').value = "שליחה";
+		document.getElementById('comment').dir = "rtl";
+		document.getElementById('comments').dir = "rtl";
+	}
+}
+
 function ShowPage() {
 	var id = spine[chapter];
 	var filename = manifest[id];
 	
 	width = $('#page').width();
 	height = $('#page').height();
-	loadAjax('ajax-backend.php?id=page&file=' + filename + '&width=' + width + '&height=' + height, 'page');
+	loadAjax('ajax-backend.php?id=page&file=' + filename + '&width=' + width + '&height=' + height + '&bookname=' + fname + '&chapter=' + chapter, 'page');
+	ShowComments();
 }
-
-var offset = 0;
 
 function next_page(id, opid) {
 	chapter = chapter + 1;

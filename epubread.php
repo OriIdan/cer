@@ -66,6 +66,7 @@ foreach($root->attributes() as $k => $v) {
 }
 // print "rootfile: $rootfile<br />\n";
 $basedir = dirname($rootfile);
+print "var fname = \"$fname\";\n";
 print "var basedir = \"$basedir\";\n";
 // print "<br />\n";
 /* We now have package file, analyze it */
@@ -160,6 +161,14 @@ foreach($itemref as $k => $v) {
 	}
 }
 print "];\n";
-print "var chapter = 0;\n";
+
+$fname1 = preg_replace("/\./", "_", $fname);
+if(isset($_COOKIE[$fname1])) {
+	$chapter = $_COOKIE[$fname1];
+	print "/* Cookie: chapter: $chapter */\n";
+	print "var chapter = $chapter\n";
+}
+else
+	print "var chapter = 0;\n";
 ?>
 

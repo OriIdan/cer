@@ -19,12 +19,14 @@ $fname = $fname = isset($_GET['fname']) ? $_GET['fname'] : '';
 
 $epubfile = "../files/$fname";	/* This is according to Helicon books store file structure */
 
+/* JavaScript code to fill parts of the template */
 $endbody = <<<EOE
 <script src="reader.js"></script>
 <script type="text/javascript">
 ShowTitle();
 ShowInfo();
 ShowPage();
+ShowComments();
 </script>
 EOE;
 
@@ -36,6 +38,17 @@ if(!$file) {
 }
 while(!feof($file)) {
 	$str = fgets($file, 1024);
+	if(preg_match("/~comments~/", $str)) {
+		/*
+		 | template must contain ~comments~ 
+		 | This is used to display comment adding form. 
+		 | It cant be displayed using AJAX as the rest of this script since JS injected by AJAX don't work
+		 | The form uses AJAX to process it's results.
+		 */
+		$_GET['action'] = 'addcomment'; /* Simulate call from URL */
+		require('comments.php');
+		$str = '';
+	}
 	if(preg_match("/<\/body>/", $str)) {
 		print "<script type=\"text/javascript\">\n";
 		/*
