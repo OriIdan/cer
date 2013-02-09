@@ -76,8 +76,10 @@ function ShowPage() {
 }
 
 function next_page(id, opid) {
+	if(chapter >= spine.length)
+		return;
 	chapter = chapter + 1;
-	if(chapter >= spine.length) {
+	if((chapter + 1) >= spine.length) {
 		document.getElementById(id).style.display = 'none';
 	}
 	else {

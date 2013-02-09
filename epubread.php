@@ -29,6 +29,39 @@ function CreateTmpDir($base) {
 	return "$base/$i";
 }
 
+function ProcessHTML($filename) {
+	$lines = file("$filename");
+
+	/* Parse file to see if we need to add code for MathJax */
+	foreach($lines as $l) {
+		if(preg_match("/<math/i", $l)) {	/* We have mathML */
+			$math = 1;
+			break;
+		}
+/*		if(preg_match("/\$\$.*\$\$/", $l)) {	// We have LaTex 
+			$math = 1;
+			break;
+		}
+		if(preg_match("/\\[\[,\(].*\\[\],\)]/", $l)) {	// We have inline math with LaTex 
+			$math = 1;
+			break; 
+		} */
+	}
+	if(!$math)
+		return;
+	$file = fopen($filename, "wt");
+	foreach($lines as $l) {
+		if(preg_match("/<\/head/", $l)) {
+			if($math) {
+				fwrite($file, "<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>\n");
+			}
+		}
+		fwrite($file, $l);
+	}
+	fflush($file);
+	fclose($file);
+}
+
 $epubdir = CreateTmpDir('epub');
 if($_SESSION['epubfile'] != $epubfile) {
 	$_SESSION['epubfile'] = $epubfile;
@@ -122,8 +155,13 @@ foreach($ma->item as $k => $v) {
 	foreach($v->attributes() as $k1 => $v1) {
 		if($k1 == 'id')
 			$id = $v1;
-		if($k1 == 'href')
+		if($k1 == 'href') {
 			$href = $v1;
+			if($htmlprocess) {
+				ProcessHTML("$basedir/$href");
+				$htmlprocess = NULL;
+			}
+		}
 		if($id && $href) {
 			if($i)
 				print ", ";
@@ -131,6 +169,14 @@ foreach($ma->item as $k => $v) {
 			$i++; 
 			$id = NULL;
 			$href = NULL;
+		}
+		if($k1 == 'media-type') {
+			if(preg_match("/html/i", $v1)) {
+				if($href != NULL)
+					ProcessHTML("$basedir/$href");
+				else
+					$htmlprocess = 1;
+			}
 		}
 	}
 }
